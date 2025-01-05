@@ -1,5 +1,11 @@
+import { UserButton } from "@clerk/clerk-react";
+
 function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <UserButton />
+    </div>
+  );
 }
 
 export default HomePage;
