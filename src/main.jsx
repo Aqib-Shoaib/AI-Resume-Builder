@@ -7,6 +7,7 @@ import SigninPage from "./auth/signin/SigninPage";
 import HomePage from "./home/HomePage";
 import Dashboard from "./dashboard/Dashboard";
 import { ClerkProvider } from "@clerk/clerk-react";
+import EditResume from "./dashboard/resume/[resumeId]/edit/EditResume";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/resume/:resumeid/edit",
+        element: <EditResume />,
       },
     ],
   },
@@ -37,7 +42,7 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/'>
       <RouterProvider router={router} />
     </ClerkProvider>
   </StrictMode>

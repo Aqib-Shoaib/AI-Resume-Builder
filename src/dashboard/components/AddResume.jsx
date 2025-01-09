@@ -12,12 +12,14 @@ import { Input } from "@/components/ui/input";
 import { v4 as uuidv4 } from "uuid";
 import GlobalApi from "./../../../services/GlobalApi";
 import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 function AddResume() {
   const [open, setOpen] = useState(false);
   const [resumeTitle, setResumeTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const onCreate = () => {
     setLoading(true);
@@ -34,7 +36,11 @@ function AddResume() {
     GlobalApi.createNewResume(data)
       .then((res) => {
         console.log(res);
-        if (res) setLoading(false);
+        if (res) {
+          setLoading(false);
+          setOpen(false);
+          navigate(`/dashboard/resume/${uuid}/edit`);
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -46,7 +52,7 @@ function AddResume() {
     <div>
       {/* dialog trigger btn */}
       <div
-        className='p-14 py-24 border flex items-center justify-center bg-secondary rounded-lg mt-10 h-[280px] hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dashed'
+        className='border flex items-center justify-center bg-secondary rounded-lg mt-10 h-[280px] hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dashed'
         onClick={() => setOpen(true)}
       >
         <PlusSquare />
