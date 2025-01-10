@@ -39,7 +39,7 @@ function AddResume() {
         if (res) {
           setLoading(false);
           setOpen(false);
-          navigate(`/dashboard/resume/${uuid}/edit`);
+          navigate(`/dashboard/resume/${res.data.data.documentId}/edit`);
         }
       })
       .catch((error) => {

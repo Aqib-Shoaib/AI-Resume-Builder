@@ -32,7 +32,6 @@ function Dashboard() {
       </div>
     );
 
-  resumeList.map((res) => console.log(res));
   return (
     <div className='p-10 md:px-20 lg:px-32'>
       <h2 className='font-bold text-3xl'>My Resumes</h2>

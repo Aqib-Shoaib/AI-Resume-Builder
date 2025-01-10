@@ -15,7 +15,11 @@ const createNewResume = (data) => axiosClient.post("/user-resumes", data);
 const getUserResumes = (userEmail) =>
   axiosClient.get(`/user-resumes?filters[userEmail][$eq]=${userEmail}`);
 
+const updateUserResume = (id, data) =>
+  axiosClient.put(`user-resumes/${id}`, data);
+
 export default {
   createNewResume,
   getUserResumes,
+  updateUserResume,
 };
