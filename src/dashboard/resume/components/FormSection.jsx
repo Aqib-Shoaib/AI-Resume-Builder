@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import PersonalDetailsForm from "./forms/PersonalDetailsForm";
 import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import { useState } from "react";
+import SummaryForm from "./forms/SummaryForm";
 
 function FormSection() {
   const maxIndex = 5;
@@ -13,6 +14,7 @@ function FormSection() {
     if (activeFormIndex === maxIndex) return;
     setActiveFormIndex((ind) => ind + 1);
   }
+  console.log(activeFormIndex);
   return (
     <div>
       {/* navigation and setting btns */}
@@ -46,6 +48,9 @@ function FormSection() {
       {/* forms */}
       {activeFormIndex === 1 && (
         <PersonalDetailsForm enableNext={(v) => setEnableNext(v)} />
+      )}
+      {activeFormIndex === 2 && (
+        <SummaryForm enableNext={(v) => setEnableNext(v)} />
       )}
     </div>
   );
