@@ -3,18 +3,18 @@ import PersonalDetailsForm from "./forms/PersonalDetailsForm";
 import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import SummaryForm from "./forms/SummaryForm";
+import ExperienceForm from "./forms/ExperienceForm";
 
 function FormSection() {
   const maxIndex = 5;
   const minIndex = 1;
-  const [activeFormIndex, setActiveFormIndex] = useState(minIndex);
+  const [activeFormIndex, setActiveFormIndex] = useState(3);
   const [enableNext, setEnableNext] = useState(false);
 
   function incrementIndex() {
     if (activeFormIndex === maxIndex) return;
     setActiveFormIndex((ind) => ind + 1);
   }
-  console.log(activeFormIndex);
   return (
     <div>
       {/* navigation and setting btns */}
@@ -51,6 +51,9 @@ function FormSection() {
       )}
       {activeFormIndex === 2 && (
         <SummaryForm enableNext={(v) => setEnableNext(v)} />
+      )}
+      {activeFormIndex === 3 && (
+        <ExperienceForm enableNext={(v) => setEnableNext(v)} />
       )}
     </div>
   );
