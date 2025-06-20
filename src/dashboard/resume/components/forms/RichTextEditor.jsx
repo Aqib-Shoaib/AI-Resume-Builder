@@ -29,14 +29,14 @@ function RichTextEditor({ handleTextEditorChange, index }) {
 
   const generateWithAI = async () => {
     setGenerating(true);
-    if (!resumeInfo?.experience[index].title) {
+    if (!resumeInfo?.Experience[index].title) {
       toast.error("Please enter a position title first");
       setGenerating(false);
       return;
     }
     const prompt = PROMPT.replace(
       "{POSITIONTITLE}",
-      resumeInfo?.experience[index].title
+      resumeInfo?.Experience[index].title
     );
 
     const result = await ChatSession.sendMessage(prompt);

@@ -1,8 +1,13 @@
+/* eslint-disable react/prop-types */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useContext, useEffect, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
+import { LoaderCircle } from "lucide-react";
+import GlobalApi from "./../../../../../services/GlobalApi";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const formField = {
   title: "",
@@ -13,46 +18,89 @@ const formField = {
   workSummary: "",
 };
 
-function ExperienceForm() {
+function ExperienceForm({ enableNext }) {
   const [experienceList, setExperienceList] = useState([formField]);
   const { setResumeInfo } = useContext(ResumeInfoContext);
+  const [loading, setLoading] = useState(false);
+  const params = useParams();
 
   const handleChange = (index, e) => {
     const newEntries = experienceList.slice();
     const { name, value } = e.target;
     newEntries[index][name] = value;
-    console.log(newEntries);
     setExperienceList(newEntries);
+    setResumeInfo((prev) => ({ ...prev, Experience: newEntries }));
   };
 
   const handleTextEditorChange = (val, name, index) => {
     const newEntries = experienceList.slice();
     newEntries[index][name] = val;
     setExperienceList(newEntries);
+    setResumeInfo((prev) => ({ ...prev, Experience: newEntries }));
   };
+
   const addMoreExp = () => {
     setExperienceList((prev) => [...prev, { ...formField }]);
   };
+
   const removeExp = () => {
     setExperienceList((exp) => exp.slice(0, -1));
   };
 
+  const onSave = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // Format dates in yyyy-MM-dd format
+    const formattedExperienceList = experienceList.map((exp) => ({
+      ...exp,
+      startDate: exp.startDate
+        ? new Date(exp.startDate).toISOString().split("T")[0]
+        : "",
+      endDate: exp.endDate
+        ? new Date(exp.endDate).toISOString().split("T")[0]
+        : "",
+    }));
+
+    const data = {
+      data: {
+        Experience: formattedExperienceList,
+      },
+    };
+
+    GlobalApi.updateUserResume(params?.resumeid, data)
+      .then((res) => {
+        console.log(res);
+        enableNext(true);
+        setLoading(false);
+        toast("Experience updated", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        toast("Error updating experience", "error");
+      });
+  };
+
   useEffect(
     function () {
-      console.log(experienceList);
-      setResumeInfo((prev) => ({ ...prev, experience: experienceList }));
+      setResumeInfo((prev) => ({ ...prev, Experience: experienceList }));
     },
     [experienceList, setResumeInfo]
   );
+
   return (
     <div>
       <div className='p-5 shadow-lg rounded-lg border-t-4 border-t-primary mt-10'>
         <h2 className='font-bold text-lg'>Professional Experience</h2>
         <p>Add your previous job experience</p>
-        <div>
-          {experienceList.map((exp, index) => (
-            <div key={index}>
-              <div className='grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg'>
+        <form>
+          <div>
+            {experienceList.map((exp, index) => (
+              <div
+                key={index}
+                className='grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg'
+              >
                 <div>
                   <label className='text-xs'>Position Title</label>
                   <Input
@@ -60,6 +108,7 @@ function ExperienceForm() {
                     name='title'
                     value={exp.title}
                     onChange={(e) => handleChange(index, e)}
+                    required
                   />
                 </div>
                 <div>
@@ -69,6 +118,7 @@ function ExperienceForm() {
                     name='company'
                     value={exp.company}
                     onChange={(e) => handleChange(index, e)}
+                    required
                   />
                 </div>
                 <div>
@@ -78,6 +128,7 @@ function ExperienceForm() {
                     name='city'
                     value={exp.city}
                     onChange={(e) => handleChange(index, e)}
+                    required
                   />
                 </div>
                 <div>
@@ -87,6 +138,7 @@ function ExperienceForm() {
                     name='startDate'
                     value={exp.startDate}
                     onChange={(e) => handleChange(index, e)}
+                    required
                   />
                 </div>
                 <div>
@@ -96,6 +148,7 @@ function ExperienceForm() {
                     name='endDate'
                     value={exp.endDate}
                     onChange={(e) => handleChange(index, e)}
+                    required
                   />
                 </div>
                 <div className='col-span-2'>
@@ -107,30 +160,34 @@ function ExperienceForm() {
                   />
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className='flex justify-between'>
-          <div className='flex gap-2'>
-            <Button
-              variant='outline'
-              className='text-primary'
-              onClick={addMoreExp}
-            >
-              + Add more
-            </Button>
-            {experienceList.length > 1 && (
+            ))}
+          </div>
+          <div className='flex justify-between'>
+            <div className='flex gap-2'>
               <Button
                 variant='outline'
                 className='text-primary'
-                onClick={removeExp}
+                onClick={addMoreExp}
+                type='button'
               >
-                - Remove
+                + Add more
               </Button>
-            )}
+              {experienceList.length > 1 && (
+                <Button
+                  variant='outline'
+                  className='text-primary'
+                  onClick={removeExp}
+                  type='button'
+                >
+                  - Remove
+                </Button>
+              )}
+            </div>
+            <Button onClick={onSave} disabled={loading}>
+              {loading ? <LoaderCircle className='animate-spin' /> : "Save"}
+            </Button>
           </div>
-          <Button>Save</Button>
-        </div>
+        </form>
       </div>
     </div>
   );

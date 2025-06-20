@@ -8,7 +8,7 @@ export default {
   themeColor: "#99a6fe",
   summary:
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores corporis consequatur soluta neque itaque dignissimos quam molestias a quis iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores corporis consequatur soluta neque itaque dignissimos quam molestias a quis iste.",
-  experience: [
+  Experience: [
     {
       id: 1,
       title: "Full Stack Developer",
@@ -54,10 +54,10 @@ export default {
         "Assisted in the development of internal tools using React and Redux. Participated in code reviews and contributed to the improvement of code quality and performance.",
     },
   ],
-  education: [
+  Education: [
     {
       id: 1,
-      univerityName: "UET Taxila",
+      university: "UET Taxila",
       startDate: "Nov 2021",
       endDate: "Sept 2025",
       degree: "Bachelor",
@@ -67,7 +67,7 @@ export default {
     },
     {
       id: 2,
-      univerityName: "MIT",
+      university: "MIT",
       startDate: "Sept 2017",
       endDate: "Jun 2021",
       degree: "Bachelor",

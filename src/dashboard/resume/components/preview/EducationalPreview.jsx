@@ -10,13 +10,13 @@ function EducationalPreview({ resumeInfo }) {
       </h2>
       <hr style={{ borderColor: resumeInfo?.themeColor }} />
 
-      {resumeInfo?.education.map((edu) => (
+      {resumeInfo?.Education.map((edu) => (
         <div key={edu?.id} className='my-5'>
           <h2
             className='text-sm font-bold'
             style={{ color: resumeInfo?.themeColor }}
           >
-            {edu?.univerityName}
+            {edu?.university}
           </h2>
           <h2 className='text-xs flex justify-between'>
             <span>

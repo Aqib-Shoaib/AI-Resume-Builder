@@ -4,11 +4,12 @@ import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import SummaryForm from "./forms/SummaryForm";
 import ExperienceForm from "./forms/ExperienceForm";
+import EducationForm from "./forms/EducationForm";
 
 function FormSection() {
   const maxIndex = 5;
   const minIndex = 1;
-  const [activeFormIndex, setActiveFormIndex] = useState(3);
+  const [activeFormIndex, setActiveFormIndex] = useState(4);
   const [enableNext, setEnableNext] = useState(false);
 
   function incrementIndex() {
@@ -54,6 +55,9 @@ function FormSection() {
       )}
       {activeFormIndex === 3 && (
         <ExperienceForm enableNext={(v) => setEnableNext(v)} />
+      )}
+      {activeFormIndex === 4 && (
+        <EducationForm enableNext={(v) => setEnableNext(v)} />
       )}
     </div>
   );
