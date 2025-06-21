@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { LoaderCircle } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import GlobalApi from "../../../../../services/GlobalApi";
 import { toast } from "sonner";
@@ -20,11 +20,21 @@ function EducationForm({ enableNext }) {
       description: "",
     },
   ]);
-  const { setResumeInfo } = useContext(ResumeInfoContext);
+  const { setResumeInfo, resumeInfo } = useContext(ResumeInfoContext);
   const [loading, setLoading] = useState(false);
   const params = useParams();
 
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (resumeInfo?.Education && !hasInitialized.current) {
+      setEducationalList(resumeInfo.Education);
+      hasInitialized.current = true;
+    }
+  }, [resumeInfo]);
+
   const handleChange = (e, index) => {
+    enableNext(false);
     const newEntries = educationalList.slice();
     const { name, value } = e.target;
     newEntries[index][name] = value;
@@ -62,7 +72,7 @@ function EducationForm({ enableNext }) {
 
     const Data = {
       data: {
-        Education: formattedEducationList,
+        Education: formattedEducationList.map(({ id, ...rest }) => rest),
       },
     };
     GlobalApi.updateUserResume(params?.resumeid, Data)
@@ -101,6 +111,7 @@ function EducationForm({ enableNext }) {
                   <Input
                     name='university'
                     onChange={(e) => handleChange(e, index)}
+                    defaultValue={edu.university}
                   />
                 </div>
                 <div>
@@ -108,12 +119,14 @@ function EducationForm({ enableNext }) {
                   <Input
                     name='degree'
                     onChange={(e) => handleChange(e, index)}
+                    value={edu.degree}
                   />
                 </div>
                 <div>
                   <label>Major</label>
                   <Input
                     name='major'
+                    value={edu.major}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
@@ -121,6 +134,7 @@ function EducationForm({ enableNext }) {
                   <label>Start Date</label>
                   <Input
                     name='startDate'
+                    value={edu.startDate}
                     type='date'
                     onChange={(e) => handleChange(e, index)}
                   />
@@ -129,6 +143,7 @@ function EducationForm({ enableNext }) {
                   <label>End Date</label>
                   <Input
                     name='endDate'
+                    value={edu.endDate}
                     type='date'
                     onChange={(e) => handleChange(e, index)}
                   />
@@ -139,6 +154,8 @@ function EducationForm({ enableNext }) {
                     name='description'
                     type='date'
                     onChange={(e) => handleChange(e, index)}
+                    value={edu.description}
+                    defaultValue={edu.description}
                   />
                 </div>
               </div>

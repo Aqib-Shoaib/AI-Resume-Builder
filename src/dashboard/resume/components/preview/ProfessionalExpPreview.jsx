@@ -23,7 +23,7 @@ function ProfessionalExpPreview({ resumeInfo }) {
               {exp?.company}, {exp?.city}{" "}
             </span>
             <span>
-              {exp?.startDate}-
+              {exp?.startDate} To
               {!exp?.currentlyWorking ? exp?.endDate : "Present"}
             </span>
           </h2>

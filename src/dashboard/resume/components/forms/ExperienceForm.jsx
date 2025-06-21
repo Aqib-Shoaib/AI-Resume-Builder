@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { LoaderCircle } from "lucide-react";
@@ -20,11 +20,21 @@ const formField = {
 
 function ExperienceForm({ enableNext }) {
   const [experienceList, setExperienceList] = useState([formField]);
-  const { setResumeInfo } = useContext(ResumeInfoContext);
+  const { setResumeInfo, resumeInfo } = useContext(ResumeInfoContext);
   const [loading, setLoading] = useState(false);
   const params = useParams();
 
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (resumeInfo?.Experience && !hasInitialized.current) {
+      setExperienceList(resumeInfo.Experience);
+      hasInitialized.current = true;
+    }
+  }, [resumeInfo]);
+
   const handleChange = (index, e) => {
+    enableNext(false);
     const newEntries = experienceList.slice();
     const { name, value } = e.target;
     newEntries[index][name] = value;
@@ -33,6 +43,7 @@ function ExperienceForm({ enableNext }) {
   };
 
   const handleTextEditorChange = (val, name, index) => {
+    enableNext(false);
     const newEntries = experienceList.slice();
     newEntries[index][name] = val;
     setExperienceList(newEntries);
@@ -64,7 +75,7 @@ function ExperienceForm({ enableNext }) {
 
     const data = {
       data: {
-        Experience: formattedExperienceList,
+        Experience: formattedExperienceList.map(({ id, ...rest }) => rest),
       },
     };
 
@@ -153,6 +164,7 @@ function ExperienceForm({ enableNext }) {
                 </div>
                 <div className='col-span-2'>
                   <RichTextEditor
+                    defaultValue={exp.workSummary}
                     index={index}
                     handleTextEditorChange={(val) =>
                       handleTextEditorChange(val, "workSummary", index)

@@ -39,7 +39,7 @@ function Dashboard() {
         Go on and create an awesome resume for your next job
       </p>
 
-      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5'>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mt-8'>
         <AddResume />
 
         {resumeList.length > 0

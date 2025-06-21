@@ -22,8 +22,8 @@ import { toast } from "sonner";
 const PROMPT =
   "Position Title: {POSITIONTITLE}, depending on position title give me a summary of my experience in html format with fields only positionSummary";
 
-function RichTextEditor({ handleTextEditorChange, index }) {
-  const [value, setValue] = useState("");
+function RichTextEditor({ handleTextEditorChange, index, defaultValue = "" }) {
+  const [value, setValue] = useState(defaultValue);
   const [generating, setGenerating] = useState(false);
   const { resumeInfo } = useContext(ResumeInfoContext);
 
@@ -50,12 +50,14 @@ function RichTextEditor({ handleTextEditorChange, index }) {
   return (
     <div>
       <div className='flex justify-between items-center my-2'>
-        <label className='text-xs'>Summary</label>
+        <label className='text-xs'>Work Summary</label>
         <Button
           className='flex gap-2 border-primary text-primary'
           variant='outline'
           onClick={generateWithAI}
           size='sm'
+          type='button'
+          disabled={generating}
         >
           {generating ? <Loader2 className='animate-spin' /> : <Brain />}
           Generate With AI

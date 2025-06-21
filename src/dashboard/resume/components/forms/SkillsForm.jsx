@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,17 @@ function SkillsForm() {
     },
   ]);
   const [loading, setLoading] = useState(false);
-  const { setResumeInfo } = useContext(ResumeInfoContext);
+  const { setResumeInfo, resumeInfo } = useContext(ResumeInfoContext);
   const { resumeid } = useParams();
+
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (resumeInfo?.skills && !hasInitialized.current) {
+      setSkillsList(resumeInfo.skills);
+      hasInitialized.current = true;
+    }
+  }, [resumeInfo]);
 
   function handleChange(index, name, value) {
     const newEntries = skillsList.slice();
@@ -35,7 +44,7 @@ function SkillsForm() {
     setLoading(true);
     const data = {
       data: {
-        skills: skillsList,
+        skills: skillsList.map(({ id, ...rest }) => rest),
       },
     };
 
@@ -75,6 +84,7 @@ function SkillsForm() {
               <label className='text-xs mb-1'>Name</label>
               <Input
                 onChange={(e) => handleChange(index, "name", e.target.value)}
+                value={skill.name}
               />
             </div>
             <div className='flex items-center '>

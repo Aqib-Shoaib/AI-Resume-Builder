@@ -31,6 +31,7 @@ function SummaryForm({ enableNext }) {
   };
 
   const handleGenerate = async () => {
+    enableNext(false);
     setLoading2(true);
     const prompt = PROMPT.replace("{JOBTITLE}", resumeInfo?.jobTitle);
     console.log(prompt);

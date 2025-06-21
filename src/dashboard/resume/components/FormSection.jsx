@@ -1,17 +1,19 @@
 import { Button } from "@/components/ui/button";
 import PersonalDetailsForm from "./forms/PersonalDetailsForm";
-import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import SummaryForm from "./forms/SummaryForm";
 import ExperienceForm from "./forms/ExperienceForm";
 import EducationForm from "./forms/EducationForm";
 import SkillsForm from "./forms/SkillsForm";
+import { useNavigate } from "react-router-dom";
 
 function FormSection() {
   const maxIndex = 5;
   const minIndex = 1;
-  const [activeFormIndex, setActiveFormIndex] = useState(5);
-  const [enableNext, setEnableNext] = useState(false);
+  const [activeFormIndex, setActiveFormIndex] = useState(minIndex);
+  const [enableNext, setEnableNext] = useState(true);
+  const navigate = useNavigate();
 
   function incrementIndex() {
     if (activeFormIndex === maxIndex) return;
@@ -21,10 +23,14 @@ function FormSection() {
     <div>
       {/* navigation and setting btns */}
       <div className='flex justify-between items-center'>
-        <Button size='sm' variant='outline' className='flex gap-2'>
-          {" "}
-          <LayoutGrid /> <span>Theme</span>
-        </Button>
+        <div className='flex gap-4 items-center'>
+          <Button onClick={() => navigate("/dashboard")}>
+            <Home />
+          </Button>
+          <Button size='sm' variant='outline' className='flex gap-2'>
+            <LayoutGrid /> <span>Theme</span>
+          </Button>
+        </div>
         <div className='flex gap-2'>
           {activeFormIndex > minIndex && (
             <Button

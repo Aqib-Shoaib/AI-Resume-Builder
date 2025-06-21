@@ -52,7 +52,7 @@ function AddResume() {
     <div>
       {/* dialog trigger btn */}
       <div
-        className='border flex items-center justify-center bg-secondary rounded-lg mt-10 h-[280px] hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dashed'
+        className='border flex items-center justify-center bg-secondary rounded-lg h-[200px] hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dashed'
         onClick={() => setOpen(true)}
       >
         <PlusSquare />

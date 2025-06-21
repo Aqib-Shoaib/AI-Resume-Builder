@@ -32,7 +32,7 @@ function PersonalDetailsForm({ enableNext }) {
     setLoading(true);
 
     const data = {
-      data: formData,
+      data: formData ?? {},
     };
 
     GlobalApi.updateUserResume(params?.resumeid, data)

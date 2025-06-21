@@ -1,15 +1,27 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FormSection from "../../components/FormSection";
 import ResumePreview from "../../components/ResumePreview";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
-import dummy from "@/data/dummy";
+import GlobalApi from "../../../../../services/GlobalApi";
+import { useParams } from "react-router-dom";
 
 function EditResume() {
   const [resumeInfo, setResumeInfo] = useState();
+  const { resumeid } = useParams();
 
-  useEffect(function () {
-    setResumeInfo(dummy);
-  }, []);
+  const getUserResume = useCallback(() => {
+    GlobalApi.getSingleUserResume(resumeid).then((res) => {
+      console.log(res.data.data);
+      setResumeInfo(res.data.data);
+    });
+  }, [resumeid]);
+
+  useEffect(
+    function () {
+      getUserResume();
+    },
+    [getUserResume]
+  );
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
