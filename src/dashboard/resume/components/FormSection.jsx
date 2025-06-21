@@ -5,11 +5,12 @@ import { useState } from "react";
 import SummaryForm from "./forms/SummaryForm";
 import ExperienceForm from "./forms/ExperienceForm";
 import EducationForm from "./forms/EducationForm";
+import SkillsForm from "./forms/SkillsForm";
 
 function FormSection() {
   const maxIndex = 5;
   const minIndex = 1;
-  const [activeFormIndex, setActiveFormIndex] = useState(4);
+  const [activeFormIndex, setActiveFormIndex] = useState(5);
   const [enableNext, setEnableNext] = useState(false);
 
   function incrementIndex() {
@@ -59,6 +60,7 @@ function FormSection() {
       {activeFormIndex === 4 && (
         <EducationForm enableNext={(v) => setEnableNext(v)} />
       )}
+      {activeFormIndex === 5 && <SkillsForm />}
     </div>
   );
 }

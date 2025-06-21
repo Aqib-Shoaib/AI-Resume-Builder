@@ -80,52 +80,32 @@ export default {
     {
       id: 1,
       name: "React",
-      rating: 90,
+      rating: 4.5,
     },
     {
       id: 2,
       name: "Node.js",
-      rating: 85,
+      rating: 3,
     },
     {
       id: 3,
       name: "Express",
-      rating: 80,
+      rating: 4,
     },
     {
       id: 4,
       name: "JavaScript",
-      rating: 95,
+      rating: 4,
     },
     {
       id: 5,
       name: "HTML",
-      rating: 90,
+      rating: 4.5,
     },
     {
       id: 6,
       name: "CSS",
-      rating: 85,
-    },
-    {
-      id: 7,
-      name: "Redux",
-      rating: 80,
-    },
-    {
-      id: 8,
-      name: "TypeScript",
-      rating: 75,
-    },
-    {
-      id: 9,
-      name: "GraphQL",
-      rating: 70,
-    },
-    {
-      id: 10,
-      name: "MongoDB",
-      rating: 80,
+      rating: 3.5,
     },
   ],
 };
